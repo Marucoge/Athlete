@@ -35,12 +35,12 @@ namespace Athlete{
         }
 
 
-        public void UpdateCore() {
+        public void UpdateCore(Vector2 walkInput, Vector2 cameraAngleInput) {
             Vector3 movementPerFrame = Vector3.zero;
 
             // (仮)
-            Vector2 walkInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            Vector2 cameraAngleInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            //Vector2 walkInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            //Vector2 cameraAngleInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             information.SetInputs(walkInput, cameraAngleInput);
 
             // 接地判定は移動前と移動後の両方で行った方がいいか? 特に重力の適用後
