@@ -4,7 +4,7 @@ using System;
 
 
 namespace Athlete{
-    public class FaceAngleDirector {
+    public class FaceAngleDirector : IAthleteUpdater{
         private float upwardCompressStartAngle = 300.0f;
         private float downwardCompressStartAngle = 60.0f;
         private float verticalLimitEuler = 80.0f;
@@ -16,10 +16,10 @@ namespace Athlete{
         }
 
 
-        public void UpdateDirection(AthleteInformation information, Vector2 input) {
+        public void Update(AthleteInformation information) {
             float currentAngle = information.FaceObject.transform.eulerAngles.x;
-            float verticalRotation = input.y * Sensitivity.y * -1;
-            float horizontalRotation = input.x * Sensitivity.x;
+            float verticalRotation = information.CameraInput.y * Sensitivity.y * -1;
+            float horizontalRotation = information.CameraInput.x * Sensitivity.x;
 
 
             // 現在の可動範囲 = 限界値 - 現在の角度

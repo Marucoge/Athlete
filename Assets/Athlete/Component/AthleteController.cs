@@ -10,29 +10,30 @@ namespace Labo{
     /// コンポーネント。
     /// </summary>
     public class AthleteController : MonoBehaviour{
+        private List<IAthleteUpdater> updaters;
+        private List<IAthleteMotor> motors;
+
         [SerializeField] private GameObject Face;
         private AthleteInformation information;
-        private GroundingDetector detector;
-        private AdoptiveFriction frictioner;
-        private FaceAngleDirector director;
 
-        private List<IAthleteMotor> motors;
-        private GravityMotor gravityMotor;
-        private WalkMotor walkMotor;
         
-
         private void Start() {
             var character = GetComponent<CharacterController>();
             information = new AthleteInformation(character, Face);
-            detector = new GroundingDetector(information);
-            frictioner = new AdoptiveFriction();
-            director = new FaceAngleDirector();
+
+            GravityMotor gravityMotor = new GravityMotor();
+            WalkMotor walkMotor = new WalkMotor();
 
             motors = new List<IAthleteMotor>();
-            gravityMotor = new GravityMotor();
-            walkMotor = new WalkMotor();
             motors.Add(gravityMotor);
             motors.Add(walkMotor);
+
+            updaters = new List<IAthleteUpdater>();
+            updaters.Add(new GroundingDetector(information));
+            updaters.Add(new AdoptiveFriction());
+            updaters.Add(new FaceAngleDirector());
+            updaters.Add(gravityMotor);
+            updaters.Add(walkMotor);
         }
 
 
@@ -42,21 +43,16 @@ namespace Labo{
             // (仮)
             Vector2 leftInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             Vector2 rightInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            information.SetInputs(leftInput, rightInput);
 
             // 接地判定は移動前と移動後の両方で行った方がいいか? 特に重力の適用後
-            // 引数を統一させれば、インターフェイスを介してforeachでメソッドを呼べるが...
-            detector.UpdateDetection(information);
-            frictioner.UpdateFriction(information, detector);
-            director.UpdateDirection(information, rightInput);
-            gravityMotor.UpdateGravity(detector);
-            walkMotor.UpdateWalk(information, leftInput);
+            foreach(var element in updaters) {
+                element.Update(information);
+            }
 
             foreach(var element in motors) {
                 movementPerFrame += element.MovementPerFrame;
             }
-
-            // Debug.Log(detector.DetectedGround);
-            // Debug.Log(this.transform.parent);
 
             this.transform.Translate(movementPerFrame * Time.deltaTime);
         }

@@ -4,7 +4,7 @@ using System;
 
 
 namespace Athlete{
-    public class GravityMotor : IAthleteMotor{
+    public class GravityMotor : IAthleteMotor, IAthleteUpdater{
         public float FloatingTime { get; private set; }
         public float GravityAccel { get; private set; }
         public float MaximumSpeed { get; private set; }
@@ -24,9 +24,9 @@ namespace Athlete{
         }
 
 
-        public void UpdateGravity(GroundingDetector detector) {
+        public void Update(AthleteInformation information) {
             // 接地していたらフィールドをリセットして return。
-            if (detector.IsGrounding) {
+            if (information.IsGrounding) {
                 MovementPerFrame = Vector3.zero;
                 FloatingTime = 0.00f;
                 return;
