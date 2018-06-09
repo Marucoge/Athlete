@@ -16,7 +16,7 @@ namespace Athlete{
         }
 
 
-        public void Rotate(AthleteInformation information, Vector2 input) {
+        public void UpdateDirection(AthleteInformation information, Vector2 input) {
             float currentAngle = information.FaceObject.transform.eulerAngles.x;
             float verticalRotation = input.y * Sensitivity.y * -1;
             float horizontalRotation = input.x * Sensitivity.x;

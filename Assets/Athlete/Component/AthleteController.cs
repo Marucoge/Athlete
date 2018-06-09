@@ -44,10 +44,10 @@ namespace Labo{
             Vector2 rightInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
             // 接地判定は移動前と移動後の両方で行った方がいいか? 特に重力の適用後
-            // 引数を統一させられれば、インターフェイスを介してforeachでメソッドを呼べるが...
+            // 引数を統一させれば、インターフェイスを介してforeachでメソッドを呼べるが...
             detector.UpdateDetection(information);
-            frictioner.ManualUpdate(information, detector);
-            director.Rotate(information, rightInput);
+            frictioner.UpdateFriction(information, detector);
+            director.UpdateDirection(information, rightInput);
             gravityMotor.UpdateGravity(detector);
             walkMotor.UpdateWalk(information, leftInput);
 

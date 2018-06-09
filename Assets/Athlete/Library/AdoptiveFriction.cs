@@ -12,7 +12,7 @@ namespace Athlete {
         private Transform defaultParent = null;
 
 
-        public void ManualUpdate(AthleteInformation information, GroundingDetector detector) {
+        public void UpdateFriction(AthleteInformation information, GroundingDetector detector) {
             // parent = DetectedGround.transform の1行で済みそうなものだが、null.transform になった時にまずい。
             if (detector.IsGrounding == false) {
                 information.AthleteObject.transform.parent = defaultParent;

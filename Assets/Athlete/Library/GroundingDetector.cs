@@ -18,7 +18,7 @@ namespace Athlete{
 
        public GroundingDetector(AthleteInformation info) {
             layermask = LayerMaskGenerator.Generate(IgnoreLayer.Specified, info.AthleteObject.layer);
-            Debug.Log("Detector will ignore: [" + LayerMask.LayerToName(info.AthleteObject.layer) + "] layer.");
+           // Debug.Log("Detector will ignore: [" + LayerMask.LayerToName(info.AthleteObject.layer) + "] layer.");
         }
 
 
